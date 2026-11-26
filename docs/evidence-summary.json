@@ -1,0 +1,172 @@
+{
+  "case": "EF-AUDIO-001",
+  "capture": {
+    "date": "2026-10-23",
+    "duration_seconds": 30.002,
+    "comparison": "peak > threshold",
+    "threshold": 1E-05,
+    "game_master_setting": 0,
+    "sessions": [
+      {
+        "process": "Endfield.exe",
+        "windows_volume_percent": 20.0,
+        "muted": false,
+        "samples": 1157,
+        "above_threshold": 0,
+        "max_peak": 0.0
+      },
+      {
+        "process": "QtWebEngineProcess.exe",
+        "windows_volume_percent": 100.0,
+        "muted": false,
+        "samples": 1157,
+        "above_threshold": 971,
+        "max_peak": 0.045191869139671326
+      }
+    ]
+  },
+  "tool_logic_tests": {
+    "date": "2026-10-23",
+    "passed_tests": [
+      "test_exact_game_path_filter",
+      "test_missing_platform_fails_closed",
+      "test_other_qt_application_is_excluded",
+      "test_renderer_is_excluded",
+      "test_reused_parent_pid_is_excluded",
+      "test_verified_chain",
+      "test_ambiguous_sources_are_not_chosen",
+      "test_other_game_instance_is_excluded",
+      "test_prefer_same_device",
+      "test_unique_source_cross_device",
+      "test_uniquely_active_source",
+      "test_already_matching_session_has_no_writes",
+      "test_corrupt_journal_is_rejected",
+      "test_initial_state_survives_multiple_updates_and_reload",
+      "test_invalid_levels_and_intervals",
+      "test_manual_change_after_stop_is_not_overwritten_by_restore",
+      "test_mute_precedes_volume_and_unmute_follows_volume",
+      "test_new_session_is_linked_on_next_inventory",
+      "test_new_takeover_respects_manual_state_after_previous_stop",
+      "test_partial_write_failure_can_be_restored",
+      "test_process_reuse_does_not_restore",
+      "test_restore_does_not_touch_non_web_session",
+      "test_restore_record_is_on_disk_before_first_write",
+      "test_session_recreation_does_not_restore_to_wrong_instance",
+      "test_tick_does_not_change_source",
+      "test_tick_waits_without_a_source",
+      "test_volume_and_mute_are_separate",
+      "test_zero_volume_does_not_require_mute_flag"
+    ]
+  },
+  "tool_live_checks": {
+    "date": "2026-10-23",
+    "poll_interval_seconds": 0.1,
+    "scan_interval_seconds": 1,
+    "volume_unit": "normalized 0..1",
+    "before_source": {
+      "volume": 0.20000000298023224,
+      "muted": false
+    },
+    "before_target": {
+      "volume": 1.0,
+      "muted": true
+    },
+    "checks": [
+      {
+        "name": "zero_without_mute",
+        "expected": {
+          "volume": 0,
+          "muted": false
+        },
+        "actual": {
+          "volume": 0.0,
+          "muted": false
+        },
+        "latency_seconds": 0.101,
+        "source_not_overwritten": true,
+        "passed": true
+      },
+      {
+        "name": "volume_15_percent",
+        "expected": {
+          "volume": 0.15,
+          "muted": false
+        },
+        "actual": {
+          "volume": 0.15000000596046448,
+          "muted": false
+        },
+        "latency_seconds": 0.102,
+        "source_not_overwritten": true,
+        "passed": true
+      },
+      {
+        "name": "mute_at_15_percent",
+        "expected": {
+          "volume": 0.15,
+          "muted": true
+        },
+        "actual": {
+          "volume": 0.15000000596046448,
+          "muted": true
+        },
+        "latency_seconds": 0.102,
+        "source_not_overwritten": true,
+        "passed": true
+      },
+      {
+        "name": "unmute_at_15_percent",
+        "expected": {
+          "volume": 0.15,
+          "muted": false
+        },
+        "actual": {
+          "volume": 0.15000000596046448,
+          "muted": false
+        },
+        "latency_seconds": 0.05,
+        "source_not_overwritten": true,
+        "passed": true
+      },
+      {
+        "name": "volume_20_percent",
+        "expected": {
+          "volume": 0.2,
+          "muted": false
+        },
+        "actual": {
+          "volume": 0.20000000298023224,
+          "muted": false
+        },
+        "latency_seconds": 0.101,
+        "source_not_overwritten": true,
+        "passed": true
+      },
+      {
+        "name": "mute_at_20_percent",
+        "expected": {
+          "volume": 0.2,
+          "muted": true
+        },
+        "actual": {
+          "volume": 0.20000000298023224,
+          "muted": true
+        },
+        "latency_seconds": 0.153,
+        "source_not_overwritten": true,
+        "passed": true
+      },
+      {
+        "name": "automatic_target_restore_after_duration",
+        "passed": true,
+        "actual": {
+          "volume": 1.0,
+          "muted": true
+        }
+      }
+    ],
+    "monitor_exit_code": 0,
+    "source_restored": true,
+    "target_restored": true
+  }
+}
